@@ -1,6 +1,20 @@
-# PDF Privacy Redactor
+# PDF Privacy Redactor & Video Face Blurring
 
-The **PDF_Privacy_Redactor** class allows you to load a PDF document, search for sensitive text patterns, and redact (blackout) those patterns to ensure privacy. It provides functionalities to manage redaction patterns, identify sensitive content, and redact the identified text on a page or across the entire document.
+Tools for redacting sensitive information from PDFs and blurring faces in videos.
+
+# Video Comparison
+
+#### Input Video
+![Input](assets/input.mp4)
+#### Blurred
+![Blurred Video](assets/output_blurred.mp4)
+
+Requirements
+PDF Redaction: Python 3.x + PyMuPDF (pip install pymupdf)
+
+Video Blurring: Python 3.x + facenet-pytorch, opencv-python, torch & CUDA dependencies
+
+Install everything with: pip install -r requirements.txt
 
 ## Requirements
 
@@ -92,8 +106,22 @@ Redacts the text matching the patterns on the specified page.
 
 Redacts all occurrences of the specified patterns across all pages in the PDF document.
 
-## Example Usage
+## Quick Usage
 
+### Video Face Blurring
+```python
+from face_blur_pipeline import FaceBlurPipeline
+
+pipeline = FaceBlurPipeline(input_path='input.mp4', output_path='output_blurred.mp4')
+pipeline.process_video()
+
+```
+Over CLI:
+```bash
+python face_blur_pipeline.py --input input.mp4 --output output_blurred.mp4 --batch_size 16
+```
+
+### PDF Blur
 ```python
 # Initialize the redactor
 pdf_redactor = PDF_Privacy_Redactor()
