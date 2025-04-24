@@ -14,7 +14,7 @@ st.set_page_config(
 
 # Initialize session state for tokens
 if 'tokens' not in st.session_state:
-    st.session_state.tokens = ["security"]  # Default token
+    st.session_state.tokens = []  # Default token
 
 # Custom CSS for a beautiful UI
 st.markdown("""
@@ -292,9 +292,9 @@ st.markdown('<div class="header-container"><h1 class="main-title">PDF Privacy Re
 col1, col2 = st.columns([2, 1])
 
 with col1:
+
     # File upload section
     st.markdown('<h2 class="upload-header">Choose a PDF file</h2>', unsafe_allow_html=True)
-    
     # File uploader
     uploaded_file = st.file_uploader("", type="pdf")
     
@@ -304,42 +304,41 @@ with col1:
     
     if uploaded_file is not None:
         # Save the uploaded file to a temporary location
+        file_uploaded_flag = False
         with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
             tmp_file.write(uploaded_file.getvalue())
             temp_file_path = tmp_file.name
         
-        st.markdown(f'<div class="success-message">File uploaded successfully: {uploaded_file.name}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="success-message">File loaded successfully: {uploaded_file.name}</div>', unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Token management section (SMALLER)
-    st.markdown('<div class="token-container">', unsafe_allow_html=True)
     st.markdown('<h2 class="token-header">Manage Redaction Tokens</h2>', unsafe_allow_html=True)
     
     # Display current tokens in a more compact way - FIXED NESTING ISSUE
     if st.session_state.tokens:
         for i, token in enumerate(st.session_state.tokens):
-            # Use HTML for layout instead of nested columns
-            st.markdown(f"""
-            <div style="display: flex; justify-content: space-between; align-items: center; 
-                        background-color: rgba(0,0,0,0.2); padding: 0.6rem; 
-                        border-radius: 5px; margin-bottom: 0.4rem;">
-                <div style="flex: 1; color: #ddd; font-size: 0.9rem;">{token}</div>
-                <div id="delete_btn_{i}" style="color: #F44336; cursor: pointer;"></div>
+            col11, col12 = st.columns([6, 1])
+            with col11:
+                st.markdown(f"""
+            <div style="display: inline-block; background-color: rgba(0,0,0,0.2); 
+                        padding: 0.4rem 1rem; border-radius: 20px; 
+                        color: #ddd; font-size: 1.2rem; margin-bottom: 0.5rem;">
+                <p><span style="margin: 0rem 1rem;">{i+1}.</span>{token}</p>
             </div>
             """, unsafe_allow_html=True)
-            
-            # Handle delete with a separate button outside the HTML
-            if st.button("Delete", key=f"delete_{i}", help="Remove this token"):
-                st.session_state.tokens.pop(i)
-                st.rerun()
+            with col12:
+                if st.button("Remove", key=f"delete_{i}", help=f"Remove {token}", use_container_width=True):
+                    st.session_state.tokens.pop(i)
+                    st.rerun()
     else:
         st.markdown('<div class="error-message">No tokens added yet. Add at least one token to redact.</div>', unsafe_allow_html=True)
     
     # Add new token - more compact
     col_input, col_button = st.columns([3, 1])
     with col_input:
-        new_token = st.text_input("Add new token:", key="new_token", placeholder="Enter text to redact")
+        new_token = st.text_input("Add Tokens:", key="new_token", placeholder="Enter text to redact")
     with col_button:
         st.write("")  # For vertical alignment
         st.write("")  # For vertical alignment
@@ -348,14 +347,14 @@ with col1:
                 st.session_state.tokens.append(new_token)
                 st.rerun()
             elif not new_token:
-                st.error("Please enter a token")
+                st.error("Please enter a valid token")
             else:
                 st.error("Token already exists")
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Redact button (only show if file is uploaded)
-    if uploaded_file is not None:
+    if uploaded_file is not None and len(st.session_state.tokens) > 0:
         # Create redactor instance
         redactor = PDF_Privacy_Redactor()
         
@@ -387,8 +386,7 @@ with col1:
                     st.markdown(f'<div class="error-message">Error: {str(e)}</div>', unsafe_allow_html=True)
     
     # PDF Preview section (only show if file is uploaded)
-    if uploaded_file is not None:
-        st.markdown('<div class="preview-container">', unsafe_allow_html=True)
+    if uploaded_file is not None and len(st.session_state.tokens) > 0:
         st.markdown('<h2 class="preview-header">Document Preview</h2>', unsafe_allow_html=True)
         
         # Create tabs for original and redacted versions
@@ -410,7 +408,6 @@ with col1:
         
         # Download section - MOVED AFTER PREVIEW
         if output_path and os.path.exists(output_path):
-            st.markdown('<div class="download-container">', unsafe_allow_html=True)
             st.markdown('<h2 class="download-header">Download Redacted Document</h2>', unsafe_allow_html=True)
             
             with open(output_path, "rb") as file:
@@ -432,24 +429,13 @@ with col2:
     <div class="feature-item">
         <div class="feature-icon">✅</div>
         <div class="feature-text">
-            <div class="feature-title">Automatic detection of sensitive information</div>
-            <div class="feature-description">Our advanced algorithms identify and protect your confidential data.</div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
-    
-    # Feature 2
-    st.markdown('''
-    <div class="feature-item">
-        <div class="feature-icon">✅</div>
-        <div class="feature-text">
             <div class="feature-title">Secure redaction that cannot be reversed</div>
             <div class="feature-description">Once redacted, information cannot be recovered by any means.</div>
         </div>
     </div>
     ''', unsafe_allow_html=True)
     
-    # Feature 3
+    # Feature 2
     st.markdown('''
     <div class="feature-item">
         <div class="feature-icon">✅</div>
@@ -460,7 +446,7 @@ with col2:
     </div>
     ''', unsafe_allow_html=True)
     
-    # Feature 4
+    # Feature 3
     st.markdown('''
     <div class="feature-item">
         <div class="feature-icon">✅</div>
