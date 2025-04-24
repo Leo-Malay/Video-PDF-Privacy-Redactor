@@ -293,7 +293,6 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     # File upload section
-    st.markdown('<div class="upload-container">', unsafe_allow_html=True)
     st.markdown('<h2 class="upload-header">Choose a PDF file</h2>', unsafe_allow_html=True)
     
     # File uploader
@@ -326,7 +325,7 @@ with col1:
                         background-color: rgba(0,0,0,0.2); padding: 0.6rem; 
                         border-radius: 5px; margin-bottom: 0.4rem;">
                 <div style="flex: 1; color: #ddd; font-size: 0.9rem;">{token}</div>
-                <div id="delete_btn_{i}" style="color: #F44336; cursor: pointer;">❌</div>
+                <div id="delete_btn_{i}" style="color: #F44336; cursor: pointer;"></div>
             </div>
             """, unsafe_allow_html=True)
             
@@ -426,7 +425,6 @@ with col1:
             st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown('<div class="features-container">', unsafe_allow_html=True)
     st.markdown('<h2 class="features-header">Features</h2>', unsafe_allow_html=True)
     
     # Feature 1
