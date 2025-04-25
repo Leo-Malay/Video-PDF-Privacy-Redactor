@@ -13,6 +13,28 @@ Install everything with:
 pip install -r requirements.txt
 ```
 
+## Try It Out
+
+Try pdf redaction using the following command.
+
+```bash
+# Environment Setup
+python3 -m venv .env
+source .env/bin/activate
+
+# Installation
+pip install fitz
+pip install streamlit
+pip install pymupdf
+
+# CLI tool
+python3 pdf_redact_example.py
+# UI App
+streamlit run app.py
+```
+
+To Try pdf redaction using streamlit use the following command.
+
 ## Quick Usage
 
 ### PDF Redaction Example
