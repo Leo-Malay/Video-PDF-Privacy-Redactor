@@ -35,6 +35,8 @@ streamlit run app.py
 
 To try face blurring, Please use the `face_blur_example.ipynb` by uploading it to Google Colab and please make sure to upload input file from `input` folder and change the path of input in the given example.
 
+Note: If you are unable to see the output in the display, you will be able to download it from the `files` panel where you uploaded the input file. Please make sure to give same parent path to both input and outout file or they may be saved in different folders.
+
 ## Quick Usage
 
 ### PDF Redaction Example
