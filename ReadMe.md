@@ -7,12 +7,6 @@ Offline tools for redacting sensitive information from PDFs and blurring faces i
 - PDF Redaction: Python 3.x + PyMuPDF (pip install pymupdf)
 - Video Blurring: Python 3.x + facenet-pytorch, opencv-python, torch & CUDA dependencies
 
-Install everything with:
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Try It Out
 
 Try pdf redaction using the following commands,
