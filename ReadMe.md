@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 ## Try It Out
 
-Try pdf redaction using the following command.
+Try pdf redaction using the following commands,
 
 ```bash
 # Environment Setup
@@ -33,7 +33,7 @@ python3 pdf_redact_example.py
 streamlit run app.py
 ```
 
-To Try pdf redaction using streamlit use the following command.
+To try face blurring, Please use the `face_blur_example.ipynb` by uploading it to Google Colab and please make sure to upload input file from `input` folder and change the path of input in the given example.
 
 ## Quick Usage
 
